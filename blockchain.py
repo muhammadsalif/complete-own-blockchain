@@ -20,3 +20,6 @@ class Blockchan:
                  }
         self.chain.append(block)
         return block
+
+    def get_previous_block(self):
+        return self.chai[-1]
