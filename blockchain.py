@@ -51,7 +51,7 @@ class Blockchan:
         while block_index < len(chain):
             block = chain[block_index]
 
-            if block["previous_hash"] != = self.hash(previous_block):
+            if block["previous_hash"] != self.hash(previous_block):
                 return False
 
             previous_proof = previous_block["proof"]
@@ -66,4 +66,4 @@ class Blockchan:
             previous_block = block
             block_index += 1
 
-    return True
+        return True
