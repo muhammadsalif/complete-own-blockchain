@@ -22,7 +22,7 @@ class Blockchan:
         return block
 
     def get_previous_block(self):
-        return self.chai[-1]
+        return self.chain[-1]
 
     def proof_of_work(self, previous_proof):
         new_proof = 1
@@ -67,3 +67,29 @@ class Blockchan:
             block_index += 1
 
         return True
+
+
+# Creating web app from flask
+app = Flask(__name__)
+
+
+# Creating a blockchain
+# instance of class
+blockchain = Blockchan()
+
+# Mining a new block
+
+
+@app.route("/mine_block", methods=["GET"])
+def mine_block():
+
+    previous_block = blockchain.previous_block()
+    previous_proof = previous_block["proof"]
+    proof = blockchain.proof_of_work(previous_proof)
+    previous_hash = blockchain.hash(previous_block)
+    block = blockchain.create_block(proof, previous_hash)
+    response = {
+        **block,
+        "message": "Successfully mined a block"
+    }
+    return jsonify(response, 200)
