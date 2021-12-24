@@ -5,7 +5,6 @@ import hashlib
 import json
 from flask import Flask, jsonify
 
-
 class Blockchan:
 
     def __init__(self):
@@ -71,7 +70,7 @@ class Blockchan:
 
 # Creating web app from flask
 app = Flask(__name__)
-
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 # Creating a blockchain
 # instance of class
@@ -83,7 +82,7 @@ blockchain = Blockchan()
 @app.route("/mine_block", methods=["GET"])
 def mine_block():
 
-    previous_block = blockchain.previous_block()
+    previous_block = blockchain.get_previous_block()
     previous_proof = previous_block["proof"]
     proof = blockchain.proof_of_work(previous_proof)
     previous_hash = blockchain.hash(previous_block)
@@ -92,15 +91,19 @@ def mine_block():
         **block,
         "message": "Successfully mined a block"
     }
-    return jsonify(response, 200)
+    return jsonify(response), 200
 
 
 # getting blockchain
-@app.route("get_chain", methods=["GETT"])
+@app.route("/get_chain", methods=["GET"])
 def get_chain():
 
     response = {
         "chain": blockchain.chain,
         "length": len(blockchain.chain)
     }
-    return jsonify(response, 200)
+    return jsonify(response), 200
+
+
+# Running flask app
+app.run(host=("0.0.0.0"), port=5000)
