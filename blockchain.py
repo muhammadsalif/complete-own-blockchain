@@ -5,6 +5,7 @@ import hashlib
 import json
 from flask import Flask, jsonify
 
+
 class Blockchan:
 
     def __init__(self):
@@ -102,6 +103,18 @@ def get_chain():
         "chain": blockchain.chain,
         "length": len(blockchain.chain)
     }
+    return jsonify(response), 200
+
+
+@app.route("/is_chain_valid", methods=["GET"])
+def is_chain_valid():
+    is_valid = blockchain.is_chain_valid(blockchain.chain)
+   
+    if is_valid:
+        response = {"message": "Blockchain is valid"}
+    else:
+        response = {"message", "Houston,Blockchain is not valid"}
+
     return jsonify(response), 200
 
 
