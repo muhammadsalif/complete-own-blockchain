@@ -93,3 +93,14 @@ def mine_block():
         "message": "Successfully mined a block"
     }
     return jsonify(response, 200)
+
+
+# getting blockchain
+@app.route("get_chain", methods=["GETT"])
+def get_chain():
+
+    response = {
+        "chain": blockchain.chain,
+        "length": len(blockchain.chain)
+    }
+    return jsonify(response, 200)
